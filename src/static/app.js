@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const spotsLeft = details.max_participants - details.participants.length;
 
         const participantsList = details.participants.length > 0 
-          ? `<ul>${details.participants.map(p => `<li>${p}<button class="delete-btn" data-activity="${name}" data-email="${p}" title="Remove participant">✕</button></li>`).join("")}</ul>`
+          ? `<ul class="participants-list">${details.participants.map(p => `<li class="participant-item">${p}<button class="delete-btn" data-activity="${name}" data-email="${p}" title="Remove participant">✕</button></li>`).join("")}</ul>`
           : "<p class='no-participants'><em>No participants yet</em></p>";
 
         activityCard.innerHTML = `
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               if (response.ok) {
                 // Refresh activities to show the update
-                fetchActivities();
+                await fetchActivities();
                 messageDiv.textContent = `Successfully removed ${email} from ${activity}`;
                 messageDiv.className = "success";
               } else {
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.className = "success";
         signupForm.reset();
         // Refresh activities to show updated participant list
-        fetchActivities();
+        await fetchActivities();
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";
